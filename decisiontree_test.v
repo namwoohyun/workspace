@@ -20,9 +20,12 @@ module decision_test;
 	initial
 	begin 
 		clk = 0;									//初始化时钟和复位信号，产生开始信号
-		start_i = 1;
+		start_i = 0;
 		reset = 0;
-		#2000 
+		#10 start_i = 1;
+		#100 start_i = 0;
+		#700 
+		$display("y_valid_o=",y_valid_o);
 		case (y_o)									//根据输出选择Y1，Y2，Y3，Y4进行显示
 	 	8'b00000001 : $display("Y1");
 	 	8'b00000010 : $display("Y2");
@@ -30,6 +33,19 @@ module decision_test;
 	 	8'b00000100 : $display("Y4");
 	 		default : $display("error");
 	 	endcase // y_o
+	 	$display("*******************");
+	 	reset = 1;
+	 	#100 reset = 0;
+	 	#700 
+	 	$display("y_valid_o=",y_valid_o);
+		case (y_o)									//根据输出选择Y1，Y2，Y3，Y4进行显示
+	 	8'b00000001 : $display("Y1");
+	 	8'b00000010 : $display("Y2");
+	 	8'b00000011 : $display("Y3");
+	 	8'b00000100 : $display("Y4");
+	 		default : $display("error");
+	 	endcase // y_o
+	 	$display("*******************");
 		#1000 $finish;
 	end
 
